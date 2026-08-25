@@ -1,5 +1,3 @@
-
-
 const users = [
   { id: 1, name: "A", age: 20 },
   { id: 2, name: "B", age: 25 },
@@ -22,6 +20,5 @@ console.log(users.some(user => user.age < 18));
 
 //5. หาค่าเฉลี่ยอายุ
 const avarageAge = users.reduce(
-    (sum , user) => sum + user.age, 0 
-) / users.length;
+    (sum , user) => sum + user.age, 0) / users.length;
 console.log(avarageAge);
