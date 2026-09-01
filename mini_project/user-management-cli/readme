@@ -1,0 +1,378 @@
+Yep 🔥 For **DAY 6**, don't start by trying to build everything at once. We'll build the **User Management CLI** step-by-step with TypeScript.
+
+## 🎯 What we're building
+
+A small terminal app:
+
+```text
+User Management CLI
+
+1. Add User
+2. List Users
+3. Find User
+4. Update User
+5. Delete User
+6. Filter by Role
+7. Exit
+```
+
+Example:
+
+```text
+> 1
+
+Name: Watayut
+Email: watayut@gmail.com
+Age: 23
+Role: member
+
+User created!
+```
+
+---
+
+# Step 1 — Create the project
+
+Open VS Code terminal and run:
+
+```bash
+mkdir user-management-cli
+cd user-management-cli
+
+npm init -y
+npm install -D typescript tsx @types/node
+npx tsc --init
+```
+
+Then open the folder in VS Code:
+
+```bash
+code .
+```
+
+---
+
+# Step 2 — Set up TypeScript
+
+Open `tsconfig.json`.
+
+You can simplify it to:
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
+}
+```
+
+Then modify `package.json`:
+
+```json
+{
+  "scripts": {
+    "dev": "tsx src/index.ts"
+  }
+}
+```
+
+---
+
+# Step 3 — Create your files
+
+Create this:
+
+```text
+user-management-cli/
+│
+├── src/
+│   ├── index.ts
+│   ├── types.ts
+│   └── userService.ts
+│
+├── package.json
+├── tsconfig.json
+└── node_modules/
+```
+
+We're deliberately separating the files because this is closer to how you'll structure a real application.
+
+---
+
+# Step 4 — Define User
+
+Open:
+
+```text
+src/types.ts
+```
+
+Write:
+
+```typescript
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  age: number;
+  role: "admin" | "member";
+}
+```
+
+This is your first requirement:
+
+> Every user must follow this structure.
+
+For example:
+
+```typescript
+const user: User = {
+  id: 1,
+  name: "Watayut",
+  email: "watayut@gmail.com",
+  age: 23,
+  role: "member"
+};
+```
+
+TypeScript will now protect you from things like:
+
+```typescript
+age: "23"
+```
+
+because `age` must be a number.
+
+---
+
+# Step 5 — Create your User Service
+
+Open:
+
+```text
+src/userService.ts
+```
+
+Start with:
+
+```typescript
+import { User } from "./types.js";
+
+let users: User[] = [];
+```
+
+Now create the first function:
+
+```typescript
+export function addUser(user: User): void {
+  users.push(user);
+}
+```
+
+And:
+
+```typescript
+export function getUsers(): User[] {
+  return users;
+}
+```
+
+So currently we have:
+
+```text
+addUser()
+getUsers()
+```
+
+---
+
+# Step 6 — Test it
+
+Open:
+
+```text
+src/index.ts
+```
+
+Write:
+
+```typescript
+import { addUser, getUsers } from "./userService.js";
+import { User } from "./types.js";
+
+const user: User = {
+  id: 1,
+  name: "Watayut",
+  email: "watayut@gmail.com",
+  age: 23,
+  role: "member"
+};
+
+addUser(user);
+
+console.log(getUsers());
+```
+
+Run:
+
+```bash
+npm run dev
+```
+
+You should see something like:
+
+```text
+[
+  {
+    id: 1,
+    name: 'Watayut',
+    email: 'watayut@gmail.com',
+    age: 23,
+    role: 'member'
+  }
+]
+```
+
+🎉 You have the basic application working.
+
+---
+
+# But DON'T build the CLI yet
+
+This is where I want you to slow down.
+
+Your **DAY 6 challenge** is to build the functions yourself.
+
+Right now your `userService.ts` should eventually have:
+
+```typescript
+addUser()
+getUsers()
+findUser()
+updateUser()
+deleteUser()
+filterByRole()
+```
+
+Think about what each function should do.
+
+For example:
+
+### `findUser`
+
+Input:
+
+```typescript
+findUser(1)
+```
+
+Should return:
+
+```typescript
+{
+  id: 1,
+  name: "Watayut",
+  ...
+}
+```
+
+Hint:
+
+```typescript
+users.find(...)
+```
+
+---
+
+### `deleteUser`
+
+Input:
+
+```typescript
+deleteUser(1)
+```
+
+Should remove:
+
+```text
+User ID 1
+```
+
+Hint: think about:
+
+```typescript
+filter()
+```
+
+---
+
+### `filterByRole`
+
+Input:
+
+```typescript
+filterByRole("admin")
+```
+
+Should return only:
+
+```text
+admin
+admin
+admin
+```
+
+Hint:
+
+```typescript
+filter()
+```
+
+---
+
+# 🔥 Your actual task right now
+
+Don't ask AI to write those functions yet.
+
+You already know the tools from Day 1:
+
+```text
+map()
+filter()
+find()
+some()
+every()
+reduce()
+```
+
+Try to use them.
+
+Your first target:
+
+```typescript
+// userService.ts
+
+addUser()
+getUsers()
+findUser()
+deleteUser()
+filterByRole()
+```
+
+Then send me your **`types.ts` + `userService.ts`**.
+
+I'll review it like a real code review:
+
+```text
+🟢 Good
+🟡 Could improve
+🔴 Bug
+🔥 Interview-ready
+```
+
+Then we'll build the **actual CLI menu** on top of it.
